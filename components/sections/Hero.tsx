@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { Transition } from "framer-motion";
 import { ArrowRight, ChevronDown, Shield, Zap, Award } from 'lucide-react'
 
 const sequences = [
@@ -40,7 +41,11 @@ function OilFiltrationTank({ className = '' }: { className?: string }) {
 
   // Animation variants & transitions
   const springConfig = { type: 'spring' as const, stiffness: 100, damping: 15 }
-  const fluidLoopTransition = { repeat: Infinity, duration: 4, ease: 'easeInOut' }
+  const fluidLoopTransition: Transition = {
+  repeat: Infinity,
+  duration: 2,
+  ease: "linear" as const
+};
   const drainTransition = { type: 'spring' as const, stiffness: 60, damping: 20 }
 
   return (

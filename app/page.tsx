@@ -274,7 +274,7 @@ function StatsSection() {
 
 /* --- SERVICES --- */
 function ServicesSection() {
-  const iconMap: Record<string, JSX.Element> = {
+  const iconMap: Record<string, React.ReactNode> = {
     '01': <Settings size={24} />,
     '02': <Beaker size={24} />,
     '03': <Droplets size={24} />,
@@ -470,7 +470,7 @@ function ProcessSection() {
                   justifyContent: 'center',
                   fontSize: '1.5rem'
                 }}>
-                  {step.icon}
+                  {step.step}
                 </div>
                 <div style={{ 
                   fontFamily: '"DM Serif Display",serif', 

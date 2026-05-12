@@ -1,8 +1,8 @@
 /**
- * Redirect Sync Middleware
+ * Redirect Sync Proxy
  *
  * Fetches WordPress redirects (Yoast Premium / Rank Math Pro / Redirection Plugin)
- * and applies them at the Next.js middleware level — before any page renders.
+ * and applies them at the Next.js proxy level — before any page renders.
  *
  * This runs on the Vercel Edge Network, making redirects extremely fast.
  *
@@ -34,7 +34,7 @@ async function getRedirects(): Promise<typeof redirectCache> {
     // Fetch from our own API route (which fetches from WP with ISR)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://hydrocleansystems.com'
     const res = await fetch(`${baseUrl}/api/seo/redirects`, {
-      cache: 'no-store', // always fresh in middleware
+      cache: 'no-store', // always fresh in proxy
     })
 
     if (res.ok) {
@@ -49,8 +49,8 @@ async function getRedirects(): Promise<typeof redirectCache> {
   return redirectCache
 }
 
-// ─── Middleware ────────────────────────────────────────────────────────────────
-export async function middleware(request: NextRequest) {
+// ─── Proxy ───────────────────────────────────────────────────────────────────
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
 
   // Skip Next.js internals and static assets

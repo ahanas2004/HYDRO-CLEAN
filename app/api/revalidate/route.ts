@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     // ── Revalidate by cache tag (granular ISR) ────────────────────────────
     if (type === 'page' && uri) {
       const tag = `page-seo-${uri.replace(/\//g, '-')}`
-      revalidateTag(tag)
+      revalidateTag(tag, 'max')
       revalidated.push(`tag:${tag}`)
 
       // Also revalidate the actual Next.js page path
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     }
 
     if (type === 'post' && slug) {
-      revalidateTag(`post-seo-${slug}`)
+      revalidateTag(`post-seo-${slug}`, 'max')
       revalidated.push(`tag:post-seo-${slug}`)
 
       // Blog post path (adjust if your blog lives at a different prefix)
@@ -62,10 +62,10 @@ export async function POST(request: Request) {
     }
 
     // ── Sitemap and redirects always revalidated on any publish ──────────
-    revalidateTag('sitemap-pages')
-    revalidateTag('sitemap-posts')
-    revalidateTag('redirects')
-    revalidateTag('robots-txt')
+    revalidateTag('sitemap-pages', 'max')
+    revalidateTag('sitemap-posts', 'max')
+    revalidateTag('redirects', 'max')
+    revalidateTag('robots-txt', 'max')
     revalidatePath('/sitemap.xml')
     revalidated.push('sitemap', 'redirects', 'robots')
 
@@ -97,7 +97,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Invalid secret' }, { status: 401 })
   }
 
-  if (tag) revalidateTag(tag)
+  if (tag) revalidateTag(tag, 'max')
   if (path) revalidatePath(path)
 
   return NextResponse.json({ revalidated: true, tag, path })
